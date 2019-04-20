@@ -1,0 +1,2 @@
+# learningmysql
+begining of mysql
