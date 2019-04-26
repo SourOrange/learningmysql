@@ -19,3 +19,6 @@ CREATE TABLE student (
 );
 </pre>
 你会发现，这次倘若输入的数据，课程名如果一样，就会出错的，另外如果我们要给定一个默认值，还可以这么设置 <b>major VARCHAR(20) UNIQUE DEFAULT 'undecided'</b>, 并且给主键加上 AUTO_INCREMENT 的话，你可以这么做 <b>INSERT INTO student(name, major) VALUES('Jack', 'Eat');</b>只需要把名字和课程换成其他的继续执行就可以了，主键会自动加上的。
+<hr>
+Update and delete,<b>UPDATE student SET major='Bio' WHERE major='Biology';</b>where在我看来等同于过滤出你要的具体内容。另外， where 后面的表达式可以跟上 or and 等等其他。<br>
+<b>DELETE FROM student WHERE name='Jim';--删除的是该行的数据</b>
