@@ -22,3 +22,19 @@ CREATE TABLE student (
 <hr>
 Update and delete,<b>UPDATE student SET major='Bio' WHERE major='Biology';</b>where在我看来等同于过滤出你要的具体内容。另外， where 后面的表达式可以跟上 or and 等等其他。<br>
 <b>DELETE FROM student WHERE name='Jim';--删除的是该行的数据</b>
+<br>
+<b>query</b>,查询，通常和之前见到的 where,其实是挂钩的，或者可以理解为就是查询具体的数据。
+<pre>
+-- 后期如果有多个table,则为了 显而易见，我们可以加上 table 的名字，在各个列的前面
+SELECT name, major FROM student;
+SELECT student.name, student.major FROM student ORDER BY student.name;
+-- order by (DESC 降序 | ASC 升序)
+SELECT * FROM student ORDER BY student_id DESC;
+SELECT * FROM student ORDER BY major, student_id;
+SELECT * FROM student ORDER BY student_id DESC LIMIT 5;
+
+-- <, >, <>, or, and, >=, <=, = , IN, (where is like filter)
+SELECT * FROM student WHERE major <> 'Sci Data' and major <> 'Python Full Stack';
+select * from student where student_id < 5 and name <> 'God';
+SELECT * FROM student WHERE name IN ('God', 'Gando', 'Kate');
+</pre>
