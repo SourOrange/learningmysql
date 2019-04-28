@@ -41,3 +41,100 @@ SELECT * FROM student WHERE name IN ('God', 'Gando', 'Kate');
 
 <hr>
 <h2>请查看 company_database, 那里说了创建和外键的设置，了解后，再来往下看</h2>
+现在插入数据到每一个表中
+<pre>
+-- 因为 branch 还没定义，自然employee中的 branch_id 还没有，所以暂时设置为 NULL
+INSERT INTO employee VALUES(100, 'David', 'Wallace', '1967-11-17', 'M', 250000, NULL, NULL);
+-- 运行上面的命令后，我们可以先执行以下命令, 可以观察到加入了 branch 的数据
+INSERT INTO branch VALUES(1, 'Corporate', 100, '2006-02-09');
+-- 接着可以更新branch_id了
+UPDATE employee SET branch_id = 1 WHERE emp_id = 100;
+-- 下面最后一列可以写上 1， 因为 branch_id 为 1 的一列，上面 已经运行了
+INSERT INTO employee VALUES(101, 'Jan', 'Levinson', '1961-05-11', 'F', 110000, 100, 1);
+
+-- Scranton 这儿的逻辑和上面的是一样的
+INSERT INTO employee VALUES(102, 'Michael', 'Scott', '1964-03-15', 'M', 75000, 100, NULL);
+INSERT INTO branch VALUES(2, 'Scranton', 102, '1992-04-06');
+UPDATE employee SET branch_id = 2 WHERE emp_id = 102;
+INSERT INTO employee VALUES(103, 'Angela', 'Martin', '1971-06-25', 'F', 63000, 102, 2);
+INSERT INTO employee VALUES(104, 'Kelly', 'Kapoor', '1980-02-05', 'F', 55000, 102, 2);
+INSERT INTO employee VALUES(105, 'Stanley', 'Hudson', '1958-02-19', 'M', 69000, 102, 2);
+
+-- Stanford 
+INSERT INTO employee VALUES(106, 'Josh', 'Porter', '1969-09-05', 'M', 78000, 100, NULL);
+INSERT INTO branch VALUES(3, 'Stamford', 106, '1998-02-13');
+UPDATE employee SET branch_id = 3 WHERE emp_id = 106;
+INSERT INTO employee VALUES(107, 'Andy', 'Bernard', '1973-07-22', 'M', 65000, 106, 3);
+INSERT INTO employee VALUES(108, 'Jim', 'Halpert', '1978-10-01', 'M', 71000, 106, 3);
+
+-- Branch_supplier table
+INSERT INTO branch_supplier VALUES(2, 'Hammer Mill', 'Paper');
+INSERT INTO branch_supplier VALUES(2, 'Uni-ball', 'Writing Utensils');
+INSERT INTO branch_supplier VALUES(3, 'Patriot Paper', 'Paper');
+INSERT INTO branch_supplier VALUES(2, 'J.T. Forms & Labels', 'Custom Forms');
+INSERT INTO branch_supplier VALUES(3, 'Uni-ball', 'Writing Utensils');
+INSERT INTO branch_supplier VALUES(3, 'Hammer Mill', 'Paper');
+INSERT INTO branch_supplier VALUES(3, 'Stamford Labels', 'Custom Forms');
+
+-- Client table
+INSERT INTO client VALUES(400, 'Dunmore Highschool', 2);
+INSERT INTO client VALUES(401, 'Lackawana Country', 2);
+INSERT INTO client VALUES(402, 'FedEx', 3);
+INSERT INTO client VALUES(403, 'John Daly Law, LLC', 3);
+INSERT INTO client VALUES(404, 'Scranton Whitepages', 2);
+INSERT INTO client VALUES(405, 'Times Newspaper', 3);
+INSERT INTO client VALUES(406, 'FedEx', 2);
+
+-- Works_With table
+INSERT INTO works_with VALUES(105, 400, 55000);
+INSERT INTO works_with VALUES(102, 401, 267000);
+INSERT INTO works_with VALUES(108, 402, 22500);
+INSERT INTO works_with VALUES(107, 403, 5000);
+INSERT INTO works_with VALUES(108, 403, 12000);
+INSERT INTO works_with VALUES(105, 404, 33000);
+INSERT INTO works_with VALUES(107, 405, 26000);
+INSERT INTO works_with VALUES(102, 406, 15000);
+INSERT INTO works_with VALUES(105, 406, 130000);
+</pre>
+<b>在插入完所有数据后，我们可以进一步查询，</b>
+<pre>
+-- after populate all the tables , more queries example coming down;
+SELECT * FROM employee ORDER BY salary DESC;
+
+-- order by anycolumn, the other column
+SELECT * FROM employee ORDER BY sex, first_name, last_name;
+SELECT * FROM employee ORDER BY salary DESC LIMIT 5;
+-- select * from employee limit 5, 只要5个
+
+-- 只要first_name和last_name
+SELECT first_name, last_name FROM employee;
+
+-- 可以用 as 替换列名
+SELECT first_name as forename, last_name as surname FROM employee;
+
+-- find out all the different genders(sex) will turns out M, F
+SELECT DISTINCT sex FROM employee;
+-- 除了 distinct sex之外，你可以尝试其他的列，比如 branch_id
+
+-- Function
+-- Find the number of employees, 可以通过emp_id查看有多少人，因为emp_id是每一个人唯一的
+SELECT COUNT(emp_id) FROM employee;
+
+-- 查看 1970 后出生 和 性别为 女 的人数有多少？
+SELECT COUNT(emp_id) FROM employee WHERE sex = 'F' and birth_day > '1970-01-01';
+
+-- find the average of all employee's salaries;
+SELECT AVG(salary) FROM employee WHERE sex = 'M';
+
+-- find the sum of all employee's salary;
+SELECT SUM(salary) FROM employee;
+
+-- aggregation 合计 使用group by 分组
+SELECT COUNT(sex), sex FROM employee GROUP BY sex;
+
+-- 查看每个销售人员总的销售
+SELECT SUM(total_sales), emp_id FROM works_with GROUP BY emp_id;
+
+-- 查看每个客户人员的消费额
+SELECT SUM(total_sales), client_id FROM works_with GROUP BY client_id;
+</pre>
