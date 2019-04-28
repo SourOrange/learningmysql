@@ -38,3 +38,6 @@ SELECT * FROM student WHERE major <> 'Sci Data' and major <> 'Python Full Stack'
 select * from student where student_id < 5 and name <> 'God';
 SELECT * FROM student WHERE name IN ('God', 'Gando', 'Kate');
 </pre>
+
+<hr>
+<h2>请查看 company_database, 那里说了创建和外键的设置，了解后，再来往下看</h2>
